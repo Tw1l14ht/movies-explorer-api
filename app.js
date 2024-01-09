@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,6 +11,12 @@ const corsErrors = require('./middlewares/corsErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { DB_ADRESS } = require('./config');
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -24,6 +32,8 @@ app.get('/crash-test', () => {
 });
 
 app.use(router);
+app.use(helmet());
+app.use(limiter);
 app.use(errorLogger);
 app.use(errors());
 
