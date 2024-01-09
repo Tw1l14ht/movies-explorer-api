@@ -15,12 +15,12 @@ module.exports.removeMovie = (req, res, next) => {
     // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError('Фильм не найден');
       }
       if (!movie.owner.equals(req.user._id)) {
         return next(new ForbiddenError('Вы не можете удалить чужой фильм'));
       }
-      movieSchema.findOneAndDelete(movieId)
+      movieSchema.findOneAndDelete({ _id: movieId })
         .then((moviE) => res.send(moviE));
     })
     .catch(next);
