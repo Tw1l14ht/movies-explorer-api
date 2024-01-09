@@ -10,8 +10,8 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.removeMovie = (req, res, next) => {
-  const { movieId } = req.params;
-  movieSchema.findById(movieId)
+  const { movieID } = req.params;
+  movieSchema.findById(movieID)
     // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
@@ -20,8 +20,13 @@ module.exports.removeMovie = (req, res, next) => {
       if (!movie.owner.equals(req.user._id)) {
         return next(new ForbiddenError('Вы не можете удалить чужой фильм'));
       }
-      movieSchema.findOneAndDelete({ _id: movieId })
-        .then((moviE) => res.send(moviE));
+      movieSchema.findOneAndDelete({ _id: movieID })
+        .then((moviE) => {
+          if (!movie) {
+            throw new NotFoundError('Фильм не найден');
+          }
+          return res.send(moviE);
+        });
     })
     .catch(next);
 };
@@ -36,6 +41,7 @@ module.exports.postMovies = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
   } = req.body;
@@ -49,6 +55,7 @@ module.exports.postMovies = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
     owner,

@@ -56,6 +56,10 @@ const movieSchema = new mongoose.Schema({
       message: 'Некорректный адрес URL',
     },
   },
+  // Пока что movieId не используем, поэтому не Required
+  movieId: {
+    type: Number,
+  },
   nameRU: {
     type: String,
     required: true,

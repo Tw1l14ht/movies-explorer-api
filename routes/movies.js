@@ -23,6 +23,7 @@ const movieJoi = {
     image: Joi.string().required().regex(linkVerify),
     trailerLink: Joi.string().required().regex(linkVerify),
     thumbnail: Joi.string().required().regex(linkVerify),
+    movieId: Joi.number(),
     nameRU: Joi.string().min(2).max(30).required(),
     nameEN: Joi.string().min(2).max(30).required(),
   }),
@@ -32,6 +33,6 @@ movieRoutes.get('/', getMovies);
 
 movieRoutes.post('/', celebrate(movieJoi), postMovies);
 
-movieRoutes.delete('/:movieId', celebrate(idJoi), removeMovie);
+movieRoutes.delete('/:movieID', celebrate(idJoi), removeMovie);
 
 module.exports = movieRoutes;
