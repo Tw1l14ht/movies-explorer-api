@@ -6,9 +6,9 @@ const statCode400 = 400;
 const statCode404 = 404;
 const statCode401 = 401;
 
-const idVerify = (cardId) => {
-  if (validID.isValid(cardId)) {
-    return cardId;
+const idVerify = (movieId) => {
+  if (validID.isValid(movieId)) {
+    return movieId;
   }
   throw new BadRequestError('Передан некорректный id');
 };
