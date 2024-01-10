@@ -8,7 +8,7 @@ const { idVerify } = require('../utils/constans');
 
 const idJoi = {
   params: Joi.object().keys({
-    movieId: Joi.string().required().custom(idVerify),
+    movieID: Joi.string().required().custom(idVerify),
   }),
 };
 
@@ -23,7 +23,7 @@ const movieJoi = {
     image: Joi.string().required().regex(linkVerify),
     trailerLink: Joi.string().required().regex(linkVerify),
     thumbnail: Joi.string().required().regex(linkVerify),
-    movieId: Joi.number(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().min(2).max(30).required(),
     nameEN: Joi.string().min(2).max(30).required(),
   }),

@@ -20,10 +20,10 @@ module.exports.removeMovie = (req, res, next) => {
       if (!movie.owner.equals(req.user._id)) {
         return next(new ForbiddenError('Вы не можете удалить чужой фильм'));
       }
-      movieSchema.findOneAndDelete({ _id: movieID })
+      return movieSchema.findOneAndDelete({ _id: movieID })
         .then((moviE) => {
           if (!movie) {
-            throw new NotFoundError('Фильм не найден');
+            return next(new NotFoundError('Фильм не найден'));
           }
           return res.send(moviE);
         });
